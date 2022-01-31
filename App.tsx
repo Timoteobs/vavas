@@ -13,6 +13,8 @@ import AppLoading from 'expo-app-loading';
 import Home from "./src/screens/Home";
 import theme from "./src/styles/theme";
 import { NavigationContainer } from '@react-navigation/native';
+import 'react-native-gesture-handler';
+import Routes from './src/routes';
 
 export default function App() {
 
@@ -30,7 +32,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <ThemeProvider theme={theme}>
-        <Home />
+        <Routes />
       </ThemeProvider>
     </NavigationContainer>
   );
