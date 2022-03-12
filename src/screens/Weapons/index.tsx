@@ -7,7 +7,8 @@ import { FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import WeaponsComponent from '../../components/Weapons';
 
 import {
-  Container
+  Container,
+  ContainerIndicator
 } from './styles';
 
 const Weapons: React.FC = () => {
@@ -17,7 +18,7 @@ const Weapons: React.FC = () => {
 
   const navigation = useNavigation();
 
-  const handleAgentDetails = (weapon : WeaponsDTO) => {
+  const handleAgentDetails = (weapon: WeaponsDTO) => {
     navigation.navigate("DetalsWeapons", { weapon })
   }
 
@@ -38,18 +39,24 @@ const Weapons: React.FC = () => {
 
   return (
     <Container>
-      <FlatList
-        data={data}
-        contentContainerStyle={{ padding: 15 }}
-        keyExtractor={item => item.uuid}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity onPress={ () => handleAgentDetails(item) }>
-              <WeaponsComponent data={item} />
-            </TouchableOpacity>
-          )
-        }}
-      />
+      {loading ?
+        <ContainerIndicator>
+          <ActivityIndicator size={'large'} color="#fff" />
+        </ContainerIndicator>
+        :
+        <FlatList
+          data={data}
+          contentContainerStyle={{ padding: 15 }}
+          keyExtractor={item => item.uuid}
+          renderItem={({ item }) => {
+            return (
+              <TouchableOpacity onPress={() => handleAgentDetails(item)}>
+                <WeaponsComponent data={item} />
+              </TouchableOpacity>
+            )
+          }}
+        />
+      }
     </Container>
   );
 }

@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import {
   Container,
+  ContainerIndicator
 } from './styles';
 
 const Agents: React.FC = () => {
@@ -19,6 +20,7 @@ const Agents: React.FC = () => {
   useEffect(() => {
     async function getAgents() {
       try {
+        setLoading(true);
         const response = await api.get('/agents/?language=pt-BR&isPlayableCharacter=true');
         setData(response.data.data);
       } catch (error) {
@@ -28,16 +30,19 @@ const Agents: React.FC = () => {
       }
     }
     getAgents();
-  }, [data]);
+  }, []);
 
-  const handleAgentDetails = (agent : AgentDTO) => {
+  const handleAgentDetails = (agent: AgentDTO) => {
     navigation.navigate("Details", { agent })
   }
 
   return (
     <Container>
-      {loading ? <ActivityIndicator size={'large'} color="#fff" /> :
-
+      {loading ? 
+      <ContainerIndicator>
+        <ActivityIndicator size={'large'} color="#fff" />
+      </ContainerIndicator>
+        :
         <FlatList
           data={data}
           contentContainerStyle={{ padding: 15 }}
